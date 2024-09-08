@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.ip.dsl.Tcp;
-import org.springframework.integration.ip.tcp.connection.TcpNetServerConnectionFactory;
+import org.springframework.integration.ip.tcp.connection.TcpNioServerConnectionFactory;
 import org.springframework.integration.ip.tcp.serializer.ByteArrayCrLfSerializer;
 
 @Configuration
@@ -16,13 +16,12 @@ public class TcpServerConfig {
     private static final int PORT = 1234;
 
     @Bean
-    public TcpNetServerConnectionFactory serverFactory() {
-        TcpNetServerConnectionFactory serverFactory = new TcpNetServerConnectionFactory(PORT);
+    public TcpNioServerConnectionFactory serverFactory() {
+        var serverFactory = new TcpNioServerConnectionFactory(PORT);
         serverFactory.setDeserializer(new ByteArrayCrLfSerializer());
         serverFactory.setSerializer(new ByteArrayCrLfSerializer());
         return serverFactory;
     }
-
 
     @Bean
     public IntegrationFlow tcpServerFlow() {
